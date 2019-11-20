@@ -3,4 +3,4 @@ project(AdventOfCode2017)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(AdventOfCode2017 main.cpp)
+add_executable(AdventOfCode2017 main.cpp day1.cpp)

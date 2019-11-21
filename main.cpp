@@ -26,6 +26,6 @@ void day24();
 void day25();
 
 int main() {
-  day6();
+  day8();
   return 0;
 }

@@ -42,9 +42,10 @@ void day4() {
       sort(c.begin(), c.end());
       m2[c]++;
     }
-    if (std::all_of(m1.begin(), m1.end(), [](auto e) { return e.second == 1; }))
+    auto occursOnce = [](auto e) { return e.second == 1; };
+    if (std::all_of(m1.begin(), m1.end(), occursOnce))
       ++star1;
-    if (std::all_of(m2.begin(), m2.end(), [](auto e) { return e.second == 1; }))
+    if (std::all_of(m2.begin(), m2.end(), occursOnce))
       ++star2;
   }
   cout << "Day 4 star 1 = " << star1 << "\n";

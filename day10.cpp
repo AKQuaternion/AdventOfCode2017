@@ -16,7 +16,7 @@
 #include <string>
 #include <utility>
 #include <vector>
-using std::ceil;
+using std::swap;
 using std::ceil;
 using std::cout;
 using std::endl;

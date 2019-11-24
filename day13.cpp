@@ -35,22 +35,6 @@ using std::string;
 using std::swap;
 using std::vector;
 
-map<int, vector<int>> edges;
-
-namespace { // internal linkage
-}
-
-int dfs(int vertex, vector<int> &visited) {
-  if (!visited[vertex])
-    ++star2;
-  for (auto i : edges[vertex]) {
-    if (!visited[i]) {
-      visited[i] = 1;
-      dfs(i, visited);
-    }
-  }
-  return (std::count(visited.begin(), visited.end(), 1));
-}
 
 void day13() {
   map<int, int> m;

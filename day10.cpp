@@ -17,6 +17,7 @@
 #include <utility>
 #include <vector>
 using std::ceil;
+using std::ceil;
 using std::cout;
 using std::endl;
 using std::ifstream;
@@ -30,7 +31,6 @@ using std::pair;
 using std::set;
 using std::sqrt;
 using std::string;
-using std::swap;
 using std::vector;
 
 void day10() {

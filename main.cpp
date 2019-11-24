@@ -1,4 +1,3 @@
-#include <iostream>
 void day1();
 void day2();
 void day3();
@@ -26,6 +25,6 @@ void day24();
 void day25();
 
 int main() {
-  day9();
+  day10();
   return 0;
 }

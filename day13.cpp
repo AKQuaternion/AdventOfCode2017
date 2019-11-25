@@ -1,9 +1,6 @@
 //
 // Created by Chris Hartman on 11/24/19.
 //
-//
-// Created by Chris Hartman on 11/24/19.
-//
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -46,7 +43,6 @@ void day13() {
   //                      "6: 4");
   string line;
   while (getline(ifile, line)) {
-    string _s;
     char _c;
     istringstream iline(line);
     int layer, range;

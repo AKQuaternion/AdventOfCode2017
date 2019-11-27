@@ -60,7 +60,7 @@ ostream &operator<<(ostream &os, const Pattern &p) {
 
 bool operator<(const Pattern &x, const Pattern &y) { return x.in < y.in; }
 bool operator==(const Pattern &x, const Pattern &y) { return x.in == y.in; }
-bool operator==(const Pattern &x, const vector<string> &y) { return x.in == y; }
+bool operator<(const Pattern &x, const vector<string> &y) { return x.in < y; }
 
 void day21() {
   auto star1 = 0;
@@ -98,33 +98,33 @@ void day21() {
   vector<string> it{".#.", "..#", "###"};
 
   for (int iter = 0; iter < 18; ++iter) {
-    auto chunk = (it.size() % 2 == 0) ? 2 : 3;
-    auto chp = chunk + 1;
-    assert(it.size() % chunk == 0);
-    auto pieces = it.size() / chunk;
-    vector<string> itOut(pieces * chp, string(pieces * chp, ' '));
-    for (int up = 0; up < pieces; ++up)
-      for (int left = 0; left < pieces; ++left) {
-        vector<string> patch(chunk, string(chunk, ' '));
-        for (int y = 0; y < chunk; ++y)
-          for (int x = 0; x < chunk; ++x)
-            patch[y][x] = it[up * chunk + y][left * chunk + x];
+    auto inChunkSize = (it.size() % 2 == 0) ? 2 : 3;
+    auto outChunkSize = inChunkSize + 1;
+    assert(it.size() % inChunkSize == 0);
+    auto chunks = it.size() / inChunkSize;
+    vector<string> itOut(chunks * outChunkSize,
+                         string(chunks * outChunkSize, ' '));
+    for (int chunkY = 0; chunkY < chunks; ++chunkY)
+      for (int chunkX = 0; chunkX < chunks; ++chunkX) {
+        vector<string> patch(inChunkSize, string(inChunkSize, ' '));
+        for (int y = 0; y < inChunkSize; ++y)
+          for (int x = 0; x < inChunkSize; ++x)
+            patch[y][x] =
+                it[chunkY * inChunkSize + y][chunkX * inChunkSize + x];
 
-        auto match = std::find(s2.begin(), s2.end(), patch);
+        auto match = std::lower_bound(s2.begin(), s2.end(), patch);
         assert(match != s2.end());
-        for (int y = 0; y < chp; ++y)
-          for (int x = 0; x < chp; ++x)
-            itOut[up * chp + y][left * chp + x] = match->out[y][x];
+
+        for (int y = 0; y < outChunkSize; ++y)
+          for (int x = 0; x < outChunkSize; ++x)
+            itOut[chunkY * outChunkSize + y][chunkX * outChunkSize + x] =
+                match->out[y][x];
       }
     it = itOut;
 
-    auto on = 0ul;
-    for (const auto s : it)
-      on += std::count(s.begin(), s.end(), '#');
     if (iter == 4)
-      star1 = on;
-    cout << "After iter " << iter << " size is " << it.size()
-         << " with #: " << on << endl;
+      for (const auto s : it)
+        star1 += std::count(s.begin(), s.end(), '#');
   }
   for (const auto s : it)
     star2 += std::count(s.begin(), s.end(), '#');

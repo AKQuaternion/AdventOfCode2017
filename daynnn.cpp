@@ -12,6 +12,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 using std::abs;
@@ -29,6 +30,9 @@ using std::pair;
 using std::set;
 using std::sqrt;
 using std::string;
+using std::forward_as_tuple;
+using std::tie;
+using std::tuple;
 using std::swap;
 using std::vector;
 

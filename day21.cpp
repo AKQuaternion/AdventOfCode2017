@@ -58,13 +58,9 @@ ostream &operator<<(ostream &os, const Pattern &p) {
   return os;
 }
 
-bool operator<(const Pattern &x, const Pattern &y) {
-  return x.in < y.in;
-}
-
-bool operator==(const Pattern &x, const Pattern &y) {
-  return x.in == y.in;
-}
+bool operator<(const Pattern &x, const Pattern &y) { return x.in < y.in; }
+bool operator==(const Pattern &x, const Pattern &y) { return x.in == y.in; }
+bool operator==(const Pattern &x, const vector<string> &y) {return x.in == y;}
 
 void day21() {
   auto star1 = 0;
@@ -72,89 +68,48 @@ void day21() {
   ifstream ifile("../day21.txt");
   string line;
   vector<Pattern> s2;
-  vector<Pattern> s3;
+
   while (getline(ifile, line)) {
     string _s;
     string input;
     string output;
     istringstream iline(line);
-    //   .##/##./#.. => .###/.#.#/...#/#.#.
     iline >> input >> _s >> output;
-    //    cout << input << " " << output << endl;
     Pattern p(input, output);
-    if (p.in.size() == 2) {
-      assert(p.out.size() == 3);
-      cout << s2.size() << ": " << input << endl;
-      Pattern fx{p};
-      Pattern fy{p};
-      Pattern fxy{p};
-      Pattern s{p};
-      Pattern sx{p};
-      Pattern sy{p};
-      Pattern sxy{p};
-      int size = 2;
-      for (int x = 0; x < size; ++x)
-        for (int y = 0; y < size; ++y) {
-          fx.in[y][size - 1 - x] = p.in[y][x];
-          fxy.in[size - 1 - y][size - 1 - x] = p.in[y][x];
-          fy.in[size - 1 - y][x] = p.in[y][x]; }
-      for (int x = 0; x < size; ++x)
-        for (int y = 0; y < size; ++y) {
-          s.in[x][y] = p.in[y][x];
-          sx.in[x][y] = fx.in[y][x];
-          sy.in[x][y] = fy.in[y][x];
-          sxy.in[x][y] = fxy.in[y][x];
-        }
-      vector<Pattern> newOnes;
-      newOnes.push_back(p);
-      newOnes.push_back(fx);
-      newOnes.push_back(fxy);
-      newOnes.push_back(fy);
-      newOnes.push_back(s);
-      newOnes.push_back(sx);
-      newOnes.push_back(sy);
-      newOnes.push_back(sxy);
-      sort(newOnes.begin(),newOnes.end());
-      newOnes.erase(unique(newOnes.begin(),newOnes.end()),newOnes.end());
-      s2.insert(s2.end(),newOnes.begin(),newOnes.end());
-    } else if (p.in.size() == 3) {
-      assert(p.out.size() == 4);
-      cout << s3.size() << ": " << input << endl;
-      s3.push_back(p);
-      Pattern fx{p};
-      Pattern fy{p};
-      Pattern fxy{p};
-      Pattern s{p};
-      Pattern sx{p};
-      Pattern sy{p};
-      Pattern sxy{p};
-      int size = 3;
-      for (int x = 0; x < size; ++x)
-        for (int y = 0; y < size; ++y) {
-          fx.in[y][size - 1 - x] = p.in[y][x];
-          fxy.in[size - 1 - y][size - 1 - x] = p.in[y][x];
-          fy.in[size - 1 - y][x] = p.in[y][x];
-        }
-      for (int x = 0; x < size; ++x)
-        for (int y = 0; y < size; ++y) {
-          s.in[x][y] = p.in[y][x];
-          sx.in[x][y] = fx.in[y][x];
-          sy.in[x][y] = fy.in[y][x];
-          sxy.in[x][y] = fxy.in[y][x];
-        }
-      vector<Pattern> newOnes;
-      newOnes.push_back(p);
-      newOnes.push_back(fx);
-      newOnes.push_back(fxy);
-      newOnes.push_back(fy);
-      newOnes.push_back(s);
-      newOnes.push_back(sx);
-      newOnes.push_back(sy);
-      newOnes.push_back(sxy);
-      sort(newOnes.begin(),newOnes.end());
-      newOnes.erase(unique(newOnes.begin(),newOnes.end()),newOnes.end());
-      s3.insert(s3.end(),newOnes.begin(),newOnes.end());
-    }
+
+    Pattern fx{p};
+    Pattern fy{p};
+    Pattern fxy{p};
+    Pattern s{p};
+    Pattern sx{p};
+    Pattern sy{p};
+    Pattern sxy{p};
+    int size = p.in.size();
+    for (int x = 0; x < size; ++x)
+      for (int y = 0; y < size; ++y) {
+        fx.in[y][size - 1 - x] = p.in[y][x];
+        fxy.in[size - 1 - y][size - 1 - x] = p.in[y][x];
+        fy.in[size - 1 - y][x] = p.in[y][x];
+      }
+    for (int x = 0; x < size; ++x)
+      for (int y = 0; y < size; ++y) {
+        s.in[x][y] = p.in[y][x];
+        sx.in[x][y] = fx.in[y][x];
+        sy.in[x][y] = fy.in[y][x];
+        sxy.in[x][y] = fxy.in[y][x];
+      }
+    vector<Pattern> newOnes;
+    newOnes.push_back(p);
+    newOnes.push_back(fx);
+    newOnes.push_back(fxy);
+    newOnes.push_back(fy);
+    newOnes.push_back(s);
+    newOnes.push_back(sx);
+    newOnes.push_back(sy);
+    newOnes.push_back(sxy);
+    sort(newOnes.begin(), newOnes.end());
+    newOnes.erase(unique(newOnes.begin(), newOnes.end()), newOnes.end());
+    s2.insert(s2.end(), newOnes.begin(), newOnes.end());
   }
 
   vector<string> it{".#.", "..#", "###"};
@@ -171,22 +126,23 @@ void day21() {
         for (int y = 0; y < chunk; ++y)
           for (int x = 0; x < chunk; ++x)
             patch[y][x] = it[up * chunk + y][left * chunk + x];
-        auto &patterns = (chunk == 2) ? s2 : s3;
+
         auto match =
-            std::find_if(patterns.begin(), patterns.end(),[&patch](const Pattern &p){return p.in==patch;});
+            std::find(s2.begin(), s2.end(),patch);
         assert(match != patterns.end());
         for (int y = 0; y < chp; ++y)
           for (int x = 0; x < chp; ++x)
             itOut[up * chp + y][left * chp + x] = match->out[y][x];
       }
-        it = itOut;
+    it = itOut;
 
-    auto on=0ul;
-      for (const auto s : it)
-        on += std::count(s.begin(), s.end(), '#');
+    auto on = 0ul;
+    for (const auto s : it)
+      on += std::count(s.begin(), s.end(), '#');
     if (iter == 4)
       star1 = on;
-    cout << "After iter " << iter << " size is " << it.size() << " with #: " << on << endl;
+    cout << "After iter " << iter << " size is " << it.size()
+         << " with #: " << on << endl;
   }
   for (const auto s : it)
     star2 += std::count(s.begin(), s.end(), '#');

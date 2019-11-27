@@ -12,6 +12,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 using std::abs;
@@ -29,6 +30,9 @@ using std::pair;
 using std::set;
 using std::sqrt;
 using std::string;
+using std::string;
+using std::swap;
+using std::tie;
 using std::swap;
 using std::vector;
 
@@ -50,8 +54,8 @@ struct Particle {
     z += dz;
   }
   [[nodiscard]] long long distance() const { return abs(x) + abs(y) + abs(z); }
-  [[nodiscard]] std::tuple<long long, long long, long long> pos() const {
-    return std::tie(x, y, z);
+  [[nodiscard]] tuple<long long, long long, long long> pos() const {
+    return forward_as_tuple(x, y, z);
   }
   int id;
   long long x, y, z, dx, dy, dz, ax, ay, az;
@@ -83,13 +87,13 @@ void day20() {
     vector<Particle> qs;
     int j = 0;
     while (j < ps.size()) {
-      if (j < ps.size() - 1 && ps.at(j).pos() == ps.at(j + 1).pos()) {
+      if (j < ps.size() - 1 && ps[j].pos() == ps[j + 1].pos()) {
         auto k = j + 1;
-        while (k < ps.size() && ps.at(k).pos() == ps.at(j).pos())
+        while (k < ps.size() && ps[k].pos() == ps[j].pos())
           ++k;
         j = k; // skip these
       } else {
-        qs.push_back(ps.at(j));
+        qs.push_back(ps[j]);
         ++j;
       }
     }

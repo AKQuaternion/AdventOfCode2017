@@ -60,7 +60,7 @@ ostream &operator<<(ostream &os, const Pattern &p) {
 
 bool operator<(const Pattern &x, const Pattern &y) { return x.in < y.in; }
 bool operator==(const Pattern &x, const Pattern &y) { return x.in == y.in; }
-bool operator==(const Pattern &x, const vector<string> &y) {return x.in == y;}
+bool operator==(const Pattern &x, const vector<string> &y) { return x.in == y; }
 
 void day21() {
   auto star1 = 0;
@@ -77,40 +77,23 @@ void day21() {
     iline >> input >> _s >> output;
     Pattern p(input, output);
 
-    Pattern fx{p};
-    Pattern fy{p};
-    Pattern fxy{p};
-    Pattern s{p};
-    Pattern sx{p};
-    Pattern sy{p};
-    Pattern sxy{p};
+    vector<Pattern> newOnes(8, p);
     int size = p.in.size();
-    for (int x = 0; x < size; ++x)
-      for (int y = 0; y < size; ++y) {
-        fx.in[y][size - 1 - x] = p.in[y][x];
-        fxy.in[size - 1 - y][size - 1 - x] = p.in[y][x];
-        fy.in[size - 1 - y][x] = p.in[y][x];
-      }
-    for (int x = 0; x < size; ++x)
-      for (int y = 0; y < size; ++y) {
-        s.in[x][y] = p.in[y][x];
-        sx.in[x][y] = fx.in[y][x];
-        sy.in[x][y] = fy.in[y][x];
-        sxy.in[x][y] = fxy.in[y][x];
-      }
-    vector<Pattern> newOnes;
-    newOnes.push_back(p);
-    newOnes.push_back(fx);
-    newOnes.push_back(fxy);
-    newOnes.push_back(fy);
-    newOnes.push_back(s);
-    newOnes.push_back(sx);
-    newOnes.push_back(sy);
-    newOnes.push_back(sxy);
-    sort(newOnes.begin(), newOnes.end());
-    newOnes.erase(unique(newOnes.begin(), newOnes.end()), newOnes.end());
+    for (int transform = 1; transform < 8; ++transform) {
+      for (int x = 0; x < size; ++x)
+        for (int y = 0; y < size; ++y) {
+          auto nx = (transform & 1) ? x : size - 1 - x;
+          auto ny = (transform & 2) ? y : size - 1 - y;
+          if (transform & 4)
+            swap(nx, ny);
+          newOnes[transform].in[ny][nx] = p.in[y][x];
+        }
+    }
     s2.insert(s2.end(), newOnes.begin(), newOnes.end());
   }
+
+  sort(s2.begin(), s2.end());
+  s2.erase(unique(s2.begin(), s2.end()), s2.end());
 
   vector<string> it{".#.", "..#", "###"};
 
@@ -127,9 +110,8 @@ void day21() {
           for (int x = 0; x < chunk; ++x)
             patch[y][x] = it[up * chunk + y][left * chunk + x];
 
-        auto match =
-            std::find(s2.begin(), s2.end(),patch);
-        assert(match != patterns.end());
+        auto match = std::find(s2.begin(), s2.end(), patch);
+        assert(match != s2.end());
         for (int y = 0; y < chp; ++y)
           for (int x = 0; x < chp; ++x)
             itOut[up * chp + y][left * chp + x] = match->out[y][x];

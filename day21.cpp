@@ -67,7 +67,7 @@ void day21() {
   auto star2 = 0;
   ifstream ifile("../day21.txt");
   string line;
-  vector<Pattern> s2;
+  vector<Pattern> patterns;
 
   while (getline(ifile, line)) {
     Pattern p(line);
@@ -84,20 +84,19 @@ void day21() {
           newOnes[transform].in[ny][nx] = p.in[y][x];
         }
     }
-    s2.insert(s2.end(), newOnes.begin(), newOnes.end());
+    patterns.insert(patterns.end(), newOnes.begin(), newOnes.end());
   }
 
-  sort(s2.begin(), s2.end());
-  s2.erase(unique(s2.begin(), s2.end()), s2.end());
+  sort(patterns.begin(), patterns.end());
+  patterns.erase(unique(patterns.begin(), patterns.end()), patterns.end());
 
-  vector<string> it{".#.", "..#", "###"};
+  vector<string> image{".#.", "..#", "###"};
 
   for (int iter = 0; iter < 18; ++iter) {
-    auto inChunkSize = (it.size() % 2 == 0) ? 2 : 3;
+    auto inChunkSize = (image.size() % 2 == 0) ? 2 : 3;
     auto outChunkSize = inChunkSize + 1;
-    assert(it.size() % inChunkSize == 0);
-    auto chunks = it.size() / inChunkSize;
-    vector<string> itOut(chunks * outChunkSize,
+    auto chunks = image.size() / inChunkSize;
+    vector<string> newImage(chunks * outChunkSize,
                          string(chunks * outChunkSize, ' '));
     for (int chunkY = 0; chunkY < chunks; ++chunkY)
       for (int chunkX = 0; chunkX < chunks; ++chunkX) {
@@ -105,23 +104,23 @@ void day21() {
         for (int y = 0; y < inChunkSize; ++y)
           for (int x = 0; x < inChunkSize; ++x)
             patch[y][x] =
-                it[chunkY * inChunkSize + y][chunkX * inChunkSize + x];
+                image[chunkY * inChunkSize + y][chunkX * inChunkSize + x];
 
-        auto match = std::lower_bound(s2.begin(), s2.end(), patch);
-        assert(match != s2.end());
+        auto match = std::lower_bound(patterns.begin(), patterns.end(), patch);
+        assert(match != patterns.end());
 
         for (int y = 0; y < outChunkSize; ++y)
           for (int x = 0; x < outChunkSize; ++x)
-            itOut[chunkY * outChunkSize + y][chunkX * outChunkSize + x] =
+            newImage[chunkY * outChunkSize + y][chunkX * outChunkSize + x] =
                 match->out[y][x];
       }
-    it = itOut;
+    image = newImage;
 
     if (iter == 4)
-      for (const auto s : it)
+      for (const auto s : image)
         star1 += std::count(s.begin(), s.end(), '#');
   }
-  for (const auto s : it)
+  for (const auto s : image)
     star2 += std::count(s.begin(), s.end(), '#');
 
   cout << "Day 21 star 1 = " << star1 << "\n";

@@ -38,25 +38,25 @@ using std::tuple;
 using std::vector;
 
 struct Pattern {
-  Pattern(const string &input, const string &output) {
-    istringstream iline(input);
+  Pattern(const string &line) {
     string s;
+    string input;
+    string output;
+    istringstream iline(line);
+    iline >> input >> s >> output;
+    iline.clear();
+    iline.str(input);
     while (getline(iline, s, '/'))
       in.push_back(s);
-    istringstream ioline(output);
-    while (getline(ioline, s, '/'))
+    iline.clear();
+    iline.str(output);
+    while (getline(iline, s, '/'))
       out.push_back(s);
   }
 
   vector<string> in;
   vector<string> out;
 };
-
-ostream &operator<<(ostream &os, const Pattern &p) {
-  for (const auto &s : p.in)
-    os << s << endl;
-  return os;
-}
 
 bool operator<(const Pattern &x, const Pattern &y) { return x.in < y.in; }
 bool operator==(const Pattern &x, const Pattern &y) { return x.in == y.in; }
@@ -70,12 +70,7 @@ void day21() {
   vector<Pattern> s2;
 
   while (getline(ifile, line)) {
-    string _s;
-    string input;
-    string output;
-    istringstream iline(line);
-    iline >> input >> _s >> output;
-    Pattern p(input, output);
+    Pattern p(line);
 
     vector<Pattern> newOnes(8, p);
     int size = p.in.size();

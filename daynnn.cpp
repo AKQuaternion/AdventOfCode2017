@@ -37,9 +37,7 @@ void daynnn() {
   auto star2 = 0;
   ifstream ifile("../daynnn.txt");
   string line;
-  while (getline(ifile, line)) {
-    istringstream iline(line);
-  }
+
   cout << "Day nnn star 1 = " << star1 << "\n";
   cout << "Day nnn star 2 = " << star2 << "\n";
 }

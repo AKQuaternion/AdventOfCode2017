@@ -52,7 +52,7 @@ public:
 private:
   long long val(const string &r) const {
     if (r[0] >= 'a' && r[0] <= 'z')
-      throw _reg.at(r[0]);
+      return _reg.at(r[0]);
     else {
       istringstream i(r);
       long long n;
@@ -164,7 +164,6 @@ long long theProgram() {
   long long b = 0;
   long long c = 0;
   long long d = 0;
-  long long e = 0;
   long long f = 0;
   long long g = 0;
   long long h = 0;
@@ -181,30 +180,23 @@ long long theProgram() {
     f = 1;
     d = 2;
   label10:
-    e = 2;
-  label11:
-    g = d;
-    ++count;
-    g *= e;
-    g -= b;
-    if (g == 0)
-      f = 0;
-    e += 1;
-    g = e;
-    g -= b;
-    if (g != 0)
-      goto label11;
-    d += 1;
-    g = d;
-    g -= b;
-    if (g != 0)
-      goto label10;
+    do {
+      count += b-2;
+//      for (auto e=2; e<b/2; ++e) {
+//        if (d * e == b)
+//          f = 0;
+//      }
+      if (b%d==0)
+        f=0;
+      ++d;
+      g = d;
+      g -= b;
+    } while (g != 0);
     if (f == 0)
-      h += 1;
-    g = b;
-    g -= c;
+      ++h;
+    g = b - c;
     if (g == 0)
-      return count;
+      return h;
     b += 17;
   }
 } // 13586198529905
@@ -224,11 +216,13 @@ void day23() {
   }
 
   Computer2 box(program, 0);
-  box.compile();
+      while (box.run() == Computer2::SEND)
+    ;
+//  box.compile();
   //    while (box.run() == Computer2::SEND)
   //      ;
   //      star1 = box.getLastSent();
 
-  //  cout << "Day 23 star 1 = " << star1 << "\n";
+    cout << "Day 23 star 1 = " << star1 << "\n";
   cout << "Day 23 star 2 = " << theProgram() << "\n";
 } // 11:!7

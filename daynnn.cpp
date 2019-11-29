@@ -9,6 +9,7 @@
 #include <iostream>
 #include <map>
 #include <numeric>
+#include <queue>
 #include <set>
 #include <sstream>
 #include <string>
@@ -28,6 +29,7 @@ using std::max_element;
 using std::min;
 using std::pair;
 using std::set;
+using std::queue;
 using std::sqrt;
 using std::string;
 using std::forward_as_tuple;

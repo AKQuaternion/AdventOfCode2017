@@ -1,6 +1,3 @@
-//
-// Created by Chris Hartman on 11/25/19.
-//
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>

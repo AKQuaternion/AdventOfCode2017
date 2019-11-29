@@ -160,7 +160,7 @@ private:
 
 long long theProgram() {
   long long count = 0;
-  long long a = 1;
+  bool debug = false;
   long long b = 0;
   long long c = 0;
   long long d = 0;
@@ -169,17 +169,15 @@ long long theProgram() {
   long long g = 0;
   long long h = 0;
 
-  b = 79;
-  c = b;
-  if (a != 0){
+  if (debug) {
+    c = b = 79;
+  } else {
     ++count;
-    b *= 100;
-    b += 100000;
-    c = b;
-    c += 17000;
+    b = 107900;
+    c = b + 17000;
   }
 
-while(true) {
+  while (true) {
     f = 1;
     d = 2;
   label10:
@@ -206,10 +204,10 @@ while(true) {
     g = b;
     g -= c;
     if (g == 0)
-      return h;
+      return count;
     b += 17;
   }
-}
+} // 13586198529905
 
 void day23() {
 

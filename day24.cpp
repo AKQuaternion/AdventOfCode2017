@@ -41,6 +41,7 @@ using std::vector;
 static auto star1 = 0;
 static pair<int,int> star2 = {0,0};
 static map<pair<int,int>,int> comps;
+static int mn=0;
 
 void dfs(int s,pair <int,int> inVal) {
   for(int ii=0;ii<=mn;++ii) {
